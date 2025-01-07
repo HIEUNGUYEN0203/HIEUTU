@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FABIO - ChatGPT</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://bizweb.dktcdn.net/100/438/408/files/anh-chill-buon-yodyvn2.jpg?v=1684810757738') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+        header {
+            background: linear-gradient(45deg, #006400, #32cd32);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #32cd32;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #228b22;
+        }
+        .chatbox {
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+            padding: 10px;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        footer a {
+            color: #32cd32;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        FABIO - ChatGPT
+    </header>
+
+    <div class="container" id="auth-section">
+        <div id="login-section">
+            <h2>Đăng nhập</h2>
+            <div class="form-group">
+                <label for="login-username">Tên tài khoản:</label>
+                <input type="text" id="login-username" placeholder="Tên tài khoản">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Mật khẩu:</label>
+                <input type="password" id="login-password" placeholder="Mật khẩu">
+            </div>
+            <button onclick="login()">Đăng nhập</button>
+        </div>
+
+        <div id="register-section">
+            <h2>Đăng ký</h2>
+            <div class="form-group">
+                <label for="register-username">Tên tài khoản:</label>
+                <input type="text" id="register-username" placeholder="Tên tài khoản">
+            </div>
+            <div class="form-group">
+                <label for="register-email">Email:</label>
+                <input type="email" id="register-email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="register-password">Mật khẩu:</label>
+                <input type="password" id="register-password" placeholder="Mật khẩu">
+            </div>
+            <button onclick="register()">Đăng ký</button>
+        </div>
+    </div>
+
+    <div class="container" id="chat-section" style="display: none;">
+        <div class="chatbox" id="chatbox"></div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Nhập tin nhắn...">
+            <button onclick="sendMessage()">Gửi</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>Follow us on <a href="https://www.facebook.com/HieuRUEY" target="_blank">Facebook</a></p>
+    </footer>
+
+    <script>
+        const adminAccount = { username: 'HIEUTU', password: 'hieutu' };
+        let users = [];
+
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            if ((username === adminAccount.username && password === adminAccount.password) || users.some(user => user.username === username && user.password === password)) {
+                alert('Đăng nhập thành công!');
+                document.getElementById('auth-section').style.display = 'none';
+                document.getElementById('chat-section').style.display = 'block';
+            } else {
+                alert('Sai tài khoản hoặc mật khẩu!');
+            }
+        }
+
+        function register() {
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            if (username && email && password) {
+                users.push({ username, email, password });
+                alert('Đăng ký thành công!');
+            } else {
+                alert('Vui lòng điền đầy đủ thông tin!');
+            }
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            const chatbox = document.getElementById('chatbox');
+
+            if (userInput) {
+                const userMessage = document.createElement('div');
+                userMessage.textContent = `Bạn: ${userInput}`;
+                chatbox.appendChild(userMessage);
+
+                const botMessage = document.createElement('div');
+                botMessage.textContent = generateBotReply(userInput);
+                botMessage.style.marginTop = '5px';
+                chatbox.appendChild(botMessage);
+
+                document.getElementById('user-input').value = '';
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }
+        }
+
+        function generateBotReply(input) {
+            const replies = [
+                'Xin chào! Tôi là ChatGPT của FABIO.',
+                'Hi Newbia!',
+                'Hôm nay bạn thế nào?',
+                'Cần tôi giúp gì không?',
+                'Thời tiết hôm nay thật tuyệt, bạn có nghĩ vậy không?',
+                'Bạn đã thử thách bản thân điều gì hôm nay chưa?',
+                'Thế giới này thật rộng lớn và thú vị, phải không bạn?',
+                'Tôi có thể hỗ trợ bạn điều gì hôm nay?',
+                'Hãy cứ hỏi, tôi ở đây để giúp bạn!',
+                'Bạn đã từng khám phá điều mới lạ nào hôm nay chưa?'
+            ];
+            return replies[Math.floor(Math.random() * replies.length)];
+        }
+    </script>
+</body>
+</html>
